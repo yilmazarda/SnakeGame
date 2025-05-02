@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import GameBoard from './components/GameBoard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,18 +12,16 @@ function App() {
       <div className="wrapper">
         <div className="score-board">
           <div className="score">
-            <p>Score</p>
-            <p>0</p>
+            <p className='oswald-regular'>Score</p>
+            <p className='oswald-regular'>0</p>
           </div>
           <div className="best">
-            <p>Best</p>
-            <p>0</p>
+            <p className='oswald-regular'>Best</p>
+            <p className='oswald-regular'>0</p>
           </div>
         </div>
 
-        <div className="play-board">
-          
-        </div>
+        <GameBoard />
       </div>
     </>
   )
