@@ -62,3 +62,7 @@ body {
 .cell.snake {
     background-color: yellow;
 }
+
+.cell.food {
+    background-color: red;
+}

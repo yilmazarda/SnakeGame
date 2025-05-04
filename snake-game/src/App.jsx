@@ -5,7 +5,7 @@ import './App.css'
 import GameBoard from './components/GameBoard'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [score, setScore] = useState(0);
 
   return (
     <>
@@ -13,7 +13,7 @@ function App() {
         <div className="score-board">
           <div className="score">
             <p className='oswald-regular'>Score</p>
-            <p className='oswald-regular'>0</p>
+            <p className='oswald-regular'>{score}</p>
           </div>
           <div className="best">
             <p className='oswald-regular'>Best</p>
@@ -21,7 +21,7 @@ function App() {
           </div>
         </div>
 
-        <GameBoard />
+        <GameBoard score={score} setScore={setScore}/>
       </div>
     </>
   )
