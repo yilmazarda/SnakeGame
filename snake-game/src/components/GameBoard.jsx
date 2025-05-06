@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const GameBoard = ({ score, setScore }) => {
+const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const boardSize = 20;
   const [snakePosition, setSnakePosition] = useState([10,10]);
   const [direction, setDirection] = useState('right');
