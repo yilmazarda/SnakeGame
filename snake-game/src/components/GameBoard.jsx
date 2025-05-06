@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 
 const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const boardSize = 20;
-  const [snakePosition, setSnakePosition] = useState([10,10]);
+  const [snakePosition, setSnakePosition] = useState([[10,10]]);
   const [direction, setDirection] = useState('right');
   const [nextDirection, setNextDirection] = useState('right');
   const [foodPosition, setFoodPosition] = useState([0,0]);
@@ -15,46 +15,61 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      
-      setSnakePosition(([row, col]) => {
-        let newCol = col;
-        let newRow = row;
-        if (nextDirection === 'right') {
-          newCol = (col + 1) % boardSize
-        } else if (nextDirection === 'left') {
-          newCol = col === 0 ? boardSize - 1 : col - 1;
-        } else if (nextDirection === 'down') {
-          newRow = (row + 1) % boardSize;
-        } else if (nextDirection === 'up') {
-          newRow = row === 0 ? boardSize - 1 : row - 1;
-        }
+      const head = snakePosition[0];
 
-        return [newRow, newCol];
-      });
+      let newHead;
+      
+      switch(nextDirection) {
+        case 'right':
+          newHead = [head[0], (head[1]+1) % boardSize];
+          break;
+        case 'left':
+          newHead = [head[0], head[1] === 0 ? boardSize - 1 : head[1] - 1];
+          break;
+        case 'down':
+          newHead = [(head[0]+1) % boardSize, head[1]];
+          break;
+        case 'up':
+          newHead = [head[0] === 0 ? boardSize - 1 : head[0] - 1, head[1]];
+          break;
+      }
+      const ateFood = newHead[0] === foodPosition[0] && newHead[1] === foodPosition[1];
+
+      let newSnake;
+      if (ateFood) {
+        newSnake = [newHead, ...snakePosition];
+        setScore(prev => prev + 1);
+      } else {
+        newSnake = [newHead, ...snakePosition.slice(0, -1)];
+      }
+      
+      setSnakePosition(newSnake);
       setDirection(nextDirection);
     }, 500); // 500ms = yarım saniyede bir hareket
   
     return () => clearInterval(intervalId); // temizle
-  }, [nextDirection]);
+  }, [snakePosition, nextDirection]);
+
+
+  const directionRef = useRef(direction);
 
   useEffect(() => {
-    if (snakePosition[0] === foodPosition[0] && snakePosition[1] === foodPosition[1]) {
-      setScore(prev => prev + 1);
-    }
-  }, [snakePosition, foodPosition]);
+    directionRef.current = direction;
+  }, [direction]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "ArrowUp" &&  direction !== 'down') {
+      const currentDirection = directionRef.current;
+      if (e.key === "ArrowUp" &&  currentDirection !== 'down') {
         setNextDirection('up');
       }
-      if (e.key === "ArrowDown" &&  direction !== 'up') {
+      if (e.key === "ArrowDown" &&  currentDirection !== 'up') {
         setNextDirection('down');
       }
-      if (e.key === "ArrowLeft" &&  direction !== 'right') {
+      if (e.key === "ArrowLeft" &&  currentDirection !== 'right') {
         setNextDirection('left');
       }
-      if (e.key === "ArrowRight" &&  direction !== 'left') {
+      if (e.key === "ArrowRight" &&  currentDirection !== 'left') {
         setNextDirection('right');
       }
     };
@@ -64,10 +79,14 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     return () => {
         window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [direction]);
+  }, []);
 
   const isSnakeCell = (row, col) => {
-    return snakePosition[0] === row && snakePosition[1] === col;
+    for(let snakeCell = 0; snakeCell < snakePosition.length; snakeCell++) {
+      if(snakePosition[snakeCell][0] === row && snakePosition[snakeCell][1] === col) {
+        return true;
+      }
+    }
   }
 
   const isFoodCell = (row, col) => {

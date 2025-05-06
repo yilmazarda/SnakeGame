@@ -11,7 +11,12 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
-    setBest(Math.max(score, best));
+    if(gameOver) {
+      setBest(Math.max(score, best));
+      setScore(0);
+      setGameOver(false);
+    }
+    
   }, [gameOver]);
 
   return (
