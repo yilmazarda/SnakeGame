@@ -14,6 +14,14 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   }, [score]);
 
   useEffect(() => {
+    for(let i=1; i<snakePosition.length; i++) {
+      if(snakePosition[0][0] === snakePosition[i][0] && snakePosition[0][1] === snakePosition[i][1]) {
+        setGameOver(true);
+      }
+    }
+  }, [snakePosition]);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       const head = snakePosition[0];
 
@@ -45,7 +53,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       
       setSnakePosition(newSnake);
       setDirection(nextDirection);
-    }, 500); // 500ms = yarım saniyede bir hareket
+    }, 500); // 500ms = one step each half second
   
     return () => clearInterval(intervalId); // temizle
   }, [snakePosition, nextDirection]);
