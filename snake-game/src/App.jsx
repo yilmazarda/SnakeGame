@@ -22,7 +22,10 @@ function App() {
   return (
     <>
         <ScoreBoard score={score} best={best}/>
-        <GameBoard score={score} setScore={setScore} gameOver={gameOver} setGameOver={setGameOver}/>
+        {
+          !gameOver &&
+          (<GameBoard score={score} setScore={setScore} gameOver={gameOver} setGameOver={setGameOver}/>)
+        }
     </>
   )
 }

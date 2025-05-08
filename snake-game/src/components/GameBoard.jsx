@@ -8,9 +8,25 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const [foodPosition, setFoodPosition] = useState([0,0]);
 
   useEffect(() => {
-    let x = Math.floor(Math.random() * (boardSize-1));
-    let y = Math.floor(Math.random() * (boardSize-1));
-    setFoodPosition([x,y])
+    const generateFood = () => {
+      let newFood;
+      let isOnSnake;
+  
+      do {
+        const x = Math.floor(Math.random() * boardSize);
+        const y = Math.floor(Math.random() * boardSize);
+        newFood = [x, y];
+  
+        // yılanın üzerinde mi?
+        isOnSnake = snakePosition.some(
+          (segment) => segment[0] === x && segment[1] === y
+        );
+      } while (isOnSnake);
+  
+      setFoodPosition(newFood);
+    };
+  
+    generateFood();
   }, [score]);
 
   useEffect(() => {
@@ -53,7 +69,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       
       setSnakePosition(newSnake);
       setDirection(nextDirection);
-    }, 500); // 500ms = one step each half second
+    }, 200); // 200ms = five steps per second
   
     return () => clearInterval(intervalId); // temizle
   }, [snakePosition, nextDirection]);
