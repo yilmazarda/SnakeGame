@@ -9,8 +9,8 @@ const ScoreBoard = ({ score, best }) => {
               <p className='oswald-regular'>{score}</p>
           </div>
           <div className="best">
-              <p className='oswald-regular'>Best</p>
-              <p className='oswald-regular'>{best}</p>
+              <p className='oswald-regular' style={{color: "red"}}>Best</p>
+              <p className='oswald-regular' style={{color: "red"}}>{best}</p>
           </div>
         </div>
     </div>
