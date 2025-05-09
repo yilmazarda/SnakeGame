@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #057bd6;
+    --secondary-color: #18567f;
+  }
+  
 .oswald-regular {
     font-family: "Oswald", sans-serif;
     font-optical-sizing: auto;
@@ -28,7 +33,7 @@ body {
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: rgb(37, 111, 184);
+    background-color: var(--primary-color);
     border-radius: 6px;
 
 }
@@ -48,7 +53,6 @@ body {
     gap: 0px;
     width: 400px;
     height: 100%;
-    background-color: rgb(37, 111, 184);
     border-radius: 6px;
 }
 
@@ -68,7 +72,7 @@ body {
 }
 
 .game-over-screen {
-    background-color: rgb(37, 111, 184);
+    background-color: var(--primary-color);
     border-radius: 6px;
     padding: 20px;
     display: flex;
@@ -78,7 +82,7 @@ body {
 }
 
 .play-again-button {
-    background-color: #4CAF50;
+    background-color: var(--secondary-color);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -89,4 +93,25 @@ body {
     margin-top: 8px;
     cursor: pointer;
     border-radius: 4px;
+    transform: background-color 0.3s ease;
+}
+
+.play-again-button:hover {
+    background-color: rgb(17, 49, 127);
+}
+
+.main-screen {
+    background-color: var(--primary-color);
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.snake-image {
+    width: 80px;
+    height: 80px;
+    filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
 }

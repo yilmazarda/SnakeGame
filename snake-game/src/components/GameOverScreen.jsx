@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GameOverScreen = ({ score, best, gameOver, setGameOver}) => {
+const GameOverScreen = ({ score, best, setGameOver }) => {
   return (
     <div className='game-over-screen'>
         <h1>Game Over</h1>
