@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const boardSize = 20;
@@ -7,6 +7,9 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const [nextDirection, setNextDirection] = useState('right');
   const [foodPosition, setFoodPosition] = useState([0,0]);
 
+  useEffect(() => { //resets the game
+    setScore(0);
+  }, []);
   useEffect(() => {
     const generateFood = () => {
       let newFood;
@@ -17,7 +20,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
         const y = Math.floor(Math.random() * boardSize);
         newFood = [x, y];
   
-        // yılanın üzerinde mi?
+        // Check if the new food position is on the snake
         isOnSnake = snakePosition.some(
           (segment) => segment[0] === x && segment[1] === y
         );
@@ -29,15 +32,15 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     generateFood();
   }, [score]);
 
-  useEffect(() => {
+  useEffect(() => {  //checks if the snake hits itself
     for(let i=1; i<snakePosition.length; i++) {
       if(snakePosition[0][0] === snakePosition[i][0] && snakePosition[0][1] === snakePosition[i][1]) {
-        setGameOver(true);
+        setGameOver(prev => !prev);
       }
     }
   }, [snakePosition]);
 
-  useEffect(() => {
+  useEffect(() => { //snake movement
     const intervalId = setInterval(() => {
       const head = snakePosition[0];
 
@@ -81,7 +84,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     directionRef.current = direction;
   }, [direction]);
 
-  useEffect(() => {
+  useEffect(() => { //controls
     const handleKeyDown = (e) => {
       const currentDirection = directionRef.current;
       if (e.key === "ArrowUp" &&  currentDirection !== 'down') {
@@ -105,7 +108,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     }
   }, []);
 
-  const isSnakeCell = (row, col) => {
+  const isSnakeCell = (row, col) => { 
     for(let snakeCell = 0; snakeCell < snakePosition.length; snakeCell++) {
       if(snakePosition[snakeCell][0] === row && snakePosition[snakeCell][1] === col) {
         return true;

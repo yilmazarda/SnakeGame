@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import GameBoard from './components/GameBoard'
 import ScoreBoard from './components/ScoreBoard'
+import GameOverScreen from './components/GameOverScreen'
 
 function App() {
   const [score, setScore] = useState(0);
@@ -13,18 +14,20 @@ function App() {
   useEffect(() => {
     if(gameOver) {
       setBest(Math.max(score, best));
-      setScore(0);
-      setGameOver(false);
     }
     
   }, [gameOver]);
 
   return (
     <>
-        <ScoreBoard score={score} best={best}/>
         {
-          !gameOver &&
-          (<GameBoard score={score} setScore={setScore} gameOver={gameOver} setGameOver={setGameOver}/>)
+          !gameOver ?
+          <>
+          <ScoreBoard score={score} best={best}/>
+          <GameBoard score={score} setScore={setScore} gameOver={gameOver} setGameOver={setGameOver}/>
+          </>
+          :
+          <GameOverScreen score={score} setScore={setScore} best={best} gameOver={gameOver} setGameOver={setGameOver}/>
         }
     </>
   )
