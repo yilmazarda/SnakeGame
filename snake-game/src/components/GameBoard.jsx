@@ -6,10 +6,12 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const [direction, setDirection] = useState('right');
   const [nextDirection, setNextDirection] = useState('right');
   const [foodPosition, setFoodPosition] = useState([0,0]);
+  const THROTTLE_DURATION = 150;
 
-  useEffect(() => { //resets the game
+  useEffect(() => { //resets the score
     setScore(0);
   }, []);
+
   useEffect(() => {
     const generateFood = () => {
       let newFood;
@@ -37,7 +39,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       if(snakePosition[0][0] === snakePosition[i][0] && snakePosition[0][1] === snakePosition[i][1]) {
         const loseSound = new Audio('sounds/lose.mp3');
         loseSound.play();
-        
+
         setGameOver(prev => !prev);
       }
     }
@@ -78,7 +80,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       
       setSnakePosition(newSnake);
       setDirection(nextDirection);
-    }, 100); // 200ms = five steps per second
+    }, 150);
   
     return () => clearInterval(intervalId); // temizle
   }, [snakePosition, nextDirection]);
@@ -90,20 +92,34 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     directionRef.current = direction;
   }, [direction]);
 
+  const inputBlockedRef = useRef(false);
+
   useEffect(() => { //controls
     const handleKeyDown = (e) => {
+      if (inputBlockedRef.current) return;
+
       const currentDirection = directionRef.current;
-      if (e.key === "ArrowUp" &&  currentDirection !== 'down') {
-        setNextDirection('up');
+      let newDirection = null;
+
+      if (e.key === "ArrowUp" && currentDirection !== 'down') {
+        newDirection = 'up';
       }
-      if (e.key === "ArrowDown" &&  currentDirection !== 'up') {
-        setNextDirection('down');
+      if (e.key === "ArrowDown" && currentDirection !== 'up') {
+        newDirection = 'down';
       }
-      if (e.key === "ArrowLeft" &&  currentDirection !== 'right') {
-        setNextDirection('left');
+      if (e.key === "ArrowLeft" && currentDirection !== 'right') {
+        newDirection = 'left';
       }
-      if (e.key === "ArrowRight" &&  currentDirection !== 'left') {
-        setNextDirection('right');
+      if (e.key === "ArrowRight" && currentDirection !== 'left') {
+        newDirection = 'right';
+      }
+
+      if (newDirection) {
+        setNextDirection(newDirection);
+        inputBlockedRef.current = true;
+        setTimeout(() => {
+          inputBlockedRef.current = false;
+        }, THROTTLE_DURATION);
       }
     };
       
