@@ -101,16 +101,16 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       const currentDirection = directionRef.current;
       let newDirection = null;
 
-      if (e.key === "ArrowUp" && currentDirection !== 'down') {
+      if (e.key === "ArrowUp" || e.key === "w" || e.key === "W" && currentDirection !== 'down') {
         newDirection = 'up';
       }
-      if (e.key === "ArrowDown" && currentDirection !== 'up') {
+      if (e.key === "ArrowDown" || e.key === "s" || e.key === "S" && currentDirection !== 'up') {
         newDirection = 'down';
       }
-      if (e.key === "ArrowLeft" && currentDirection !== 'right') {
+      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A" && currentDirection !== 'right') {
         newDirection = 'left';
       }
-      if (e.key === "ArrowRight" && currentDirection !== 'left') {
+      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D" && currentDirection !== 'left') {
         newDirection = 'right';
       }
 
@@ -119,7 +119,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
         inputBlockedRef.current = true;
         setTimeout(() => {
           inputBlockedRef.current = false;
-        }, THROTTLE_DURATION);
+        }, THROTTLE_DURATION); //throttle
       }
     };
       
