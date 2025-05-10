@@ -35,6 +35,9 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   useEffect(() => {  //checks if the snake hits itself
     for(let i=1; i<snakePosition.length; i++) {
       if(snakePosition[0][0] === snakePosition[i][0] && snakePosition[0][1] === snakePosition[i][1]) {
+        const loseSound = new Audio('sounds/lose.mp3');
+        loseSound.play();
+        
         setGameOver(prev => !prev);
       }
     }
@@ -64,6 +67,9 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
 
       let newSnake;
       if (ateFood) {
+        const eatSound = new Audio('sounds/eat.mp3');
+        eatSound.play();
+
         newSnake = [newHead, ...snakePosition];
         setScore(prev => prev + 1);
       } else {
@@ -72,7 +78,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       
       setSnakePosition(newSnake);
       setDirection(nextDirection);
-    }, 200); // 200ms = five steps per second
+    }, 100); // 200ms = five steps per second
   
     return () => clearInterval(intervalId); // temizle
   }, [snakePosition, nextDirection]);
