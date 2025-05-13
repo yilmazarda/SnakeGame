@@ -4,9 +4,9 @@ A classic Snake game built with React. Control a snake to eat food and grow long
 
 ## Screenshots
 
-![Desktop View](/screenshots/screenshot-desktop.png)
+![Desktop View](/snake-game/public/screenshots/screenshot-desktop.png)
 
-![Mobile View](/screenshots/screenshot-mobile.png)
+![Mobile View](/snake-game/public/screenshots/screenshot-mobile.png)
 
 ## Table of Contents
 - [Features](#features)
