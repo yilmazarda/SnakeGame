@@ -115,3 +115,29 @@ body {
     height: 80px;
     filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
 }
+
+.mobile-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    background-color: var(--secondary-color);
+    width: 100%;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    transform: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0c3855;;
+}
+
+@media only screen and (min-width: 769px) {
+    .button {
+        display: none;
+    }
+}

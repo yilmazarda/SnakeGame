@@ -27,10 +27,10 @@ function App() {
           </>
           :
           !gameOver ? 
-          <>
+          <div className="wrapper">
             <ScoreBoard score={score} best={best}/>
             <GameBoard score={score} setScore={setScore} gameOver={gameOver} setGameOver={setGameOver}/>
-          </>
+          </div>
           :
             <GameOverScreen score={score} setScore={setScore} best={best} setGameOver={setGameOver}/>
         }

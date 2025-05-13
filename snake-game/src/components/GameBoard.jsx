@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import MobileButtons from './MobileButtons';
 
 const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
   const boardSize = 20;
@@ -101,16 +102,16 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       const currentDirection = directionRef.current;
       let newDirection = null;
 
-      if (e.key === "ArrowUp" || e.key === "w" || e.key === "W" && currentDirection !== 'down') {
+      if ((e.key === "ArrowUp" || e.key === "w" || e.key === "W") && currentDirection !== 'down') {
         newDirection = 'up';
       }
-      if (e.key === "ArrowDown" || e.key === "s" || e.key === "S" && currentDirection !== 'up') {
+      if ((e.key === "ArrowDown" || e.key === "s" || e.key === "S") && currentDirection !== 'up') {
         newDirection = 'down';
       }
-      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A" && currentDirection !== 'right') {
+      if ((e.key === "ArrowLeft" || e.key === "a" || e.key === "A") && currentDirection !== 'right') {
         newDirection = 'left';
       }
-      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D" && currentDirection !== 'left') {
+      if ((e.key === "ArrowRight" || e.key === "d" || e.key === "D") && currentDirection !== 'left') {
         newDirection = 'right';
       }
 
@@ -128,7 +129,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
     return () => {
         window.removeEventListener('keydown', handleKeyDown);
     }
-  }, []);
+  }, [directionRef]);
 
   const isSnakeCell = (row, col) => { 
     for(let snakeCell = 0; snakeCell < snakePosition.length; snakeCell++) {
@@ -161,9 +162,13 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
 
 
   return (
+    <>
     <div className="game-board">
       {createBoard()}
+      
     </div>
+    <MobileButtons setNextDirection={setNextDirection} direction={direction}/>
+    </>
   )
 }
 
