@@ -111,7 +111,7 @@ const GameBoard = ({ score, setScore, gameOver, setGameOver }) => {
       if ((e.key === "ArrowLeft" || e.key === "a" || e.key === "A") && currentDirection !== 'right') {
         newDirection = 'left';
       }
-      if ((e.key === "ArrowRight" || e.key === "d" || e.key === "D") && currentDirection !== 'left') {
+      if (( e.key === "ArrowRight" || e.key === "d" || e.key === "D") && currentDirection !== 'left') {
         newDirection = 'right';
       }
 
